@@ -51,8 +51,6 @@ locust03                   running (virtualbox)
 
 #### Deployment
 
-##### Over HTTP
-
 To deploy the Locust cluster, you just have to run the Ansible playbook locust.yml with this command :
 
 ```
@@ -60,6 +58,8 @@ ansible-playbook locust.yml
 ```
 
 If all run like it is expected, you should access the locust web interface : http://10.0.0.41:8089/
+
+The python script must be deployed in /opt/locuts folder.
 
 #### Destroy
 
