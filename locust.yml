@@ -1,0 +1,23 @@
+---
+
+- hosts: all
+  remote_user: vagrant
+  become: yes
+  roles:
+    - locust
+
+- hosts: master
+  remote_user: vagrant
+  become: yes
+  vars:
+    locust_role: master
+  roles:
+    - locust_test
+
+- hosts: slave
+  remote_user: vagrant
+  become: yes
+  vars:
+    locust_role: slave
+  roles:
+    - locust_test

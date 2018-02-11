@@ -1,0 +1,17 @@
+---
+
+- name: Deploy a simple python test script
+  copy:
+    src: opt/locust/example.py
+    dest: /opt/locust/example.py
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Run Locust test on master node
+  shell: nohup locust -f /opt/locust/example.py --{{ locust_role }} --host=http://example.com &
+  when: locust_role == "master"
+
+- name: Run Locust test on slave nodes
+  shell: nohup locust -f /opt/locust/example.py --{{ locust_role }} --master-host={{ groups['master'][0] }} --host=http://example.com &
+  when: locust_role == "slave"

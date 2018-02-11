@@ -1,0 +1,37 @@
+
+---
+
+- name: Create local directory to copy sources
+  file:
+    path: /opt/locust
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+- name: Install prerequisites on remote server
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git
+    - python-pip
+    - gcc
+    - jq
+    - python2.7
+    - python2.7-dev
+    - musl-dev
+    - g++
+    - curl
+    - bc
+    - gnuplot
+    - ttf-dejavu
+
+- name: Install Locustio on remote server
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - locustio
+    - pyzmq
+    - faker
