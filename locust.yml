@@ -6,7 +6,7 @@
   roles:
     - locust
 
-- hosts: master
+- hosts: locust-master
   remote_user: vagrant
   become: yes
   vars:
@@ -14,7 +14,7 @@
   roles:
     - locust_test
 
-- hosts: slave
+- hosts: locust-slave
   remote_user: vagrant
   become: yes
   vars:

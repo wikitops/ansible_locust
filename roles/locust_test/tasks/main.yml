@@ -1,6 +1,6 @@
 ---
 
-- name: Deploy a simple python test script
+- name: LOCUST TEST | Deploy a simple python test script
   copy:
     src: opt/locust/example.py
     dest: /opt/locust/example.py
@@ -8,10 +8,10 @@
     group: root
     mode: 0644
 
-- name: Run Locust test on master node
-  shell: nohup locust -f /opt/locust/example.py --{{ locust_role }} --host=http://example.com &
-  when: locust_role == "master"
+- name: LOCUST TEST | Run Locust test on master node
+  shell: nohup locust -f /opt/locust/example.py --master --host=http://example.com &
+  when: inventory_hostname in groups['locust-master']
 
-- name: Run Locust test on slave nodes
-  shell: nohup locust -f /opt/locust/example.py --{{ locust_role }} --master-host={{ groups['master'][0] }} --host=http://example.com &
-  when: locust_role == "slave"
+- name: LOCUST TEST | Run Locust test on slave nodes
+  shell: nohup locust -f /opt/locust/example.py --slave --master-host={{ hostvars[groups['locust-master'][0]].ip }} --host=http://example.com &
+  when: inventory_hostname in groups['locust-slave']
